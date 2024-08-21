@@ -34,7 +34,7 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-lg-12">
-                        <h1 class="page-header">Blood's Detail</h1>
+                        <h1 class="page-header">Test's Detail</h1>
                     </div>
                     <!-- /.col-lg-12 -->
                 </div>
@@ -53,14 +53,14 @@
                                         include "dbconnect.php";
                                         
 
-                                        $id = $_GET['Donation_Number'];
+                                        $id = $_GET['Test_Number'];
                                         // $date_view = $_GET['date_view'];
 
 
 
 
 
-                                        $qry = "select  * from Blood where Donation_Number='$id' ";
+                                        $qry = "select  * from Blood_Test where Test_Number='$id' ";
                                         $result = mysqli_query($conn, $qry);
     
     
@@ -70,13 +70,18 @@
     
     
                                         while ($row = mysqli_fetch_array($result)) {
+                                            $Test_Number = $row["Test_Number"];
                                             $Donation_Number = $row["Donation_Number"];
-                                            $Donor_Number = $row["Donor_Number"];
-                                            $national = $row["national"];
-                                            $Donation_Date = $row["Donation_Date"];
-                                            $Blood_Group = $row["Blood_Group"];
-                                            $Amount_Blood = $row["Amount_Blood"];
-                                            $Picking_Type = $row["Picking_Type"];
+                                            $Test_Date = $row["Test_Date"];
+                                            $Test_HBsAg = $row["Test_HBsAg"];
+                                            $Test_HCV_Ab_IgG = $row["Test_HCV_Ab_IgG"];
+                                            $Test_HIV_1_2_Ag_Ab = $row["Test_HIV_1_2_Ag_Ab"];
+                                            $Test_Syphilis_Ab = $row["Test_Syphilis_Ab"];
+                                            $Stereotyping_Capital_C = $row["Stereotyping_Capital_C"];
+                                            $Stereotyping_Capital_E = $row["Stereotyping_Capital_E"];
+                                            $Stereotyping_Small_c = $row["Stereotyping_Small_c"];
+                                            $Stereotyping_Small_e = $row["Stereotyping_Small_e"];
+                                            $Stereotyping_Capital_K = $row["Stereotyping_Capital_K"];
                                             
                                   
     
@@ -88,38 +93,58 @@
                                                 <?php echo '<img style="width:250px; height:250px; margin-left:70%;" src="data:QR/png;base64,' . $row['QR'] . '"" alt="QR Code">' ?>
                                                 <!-- أجزاء نموذج إضافة تفاصيل المتبرع -->
                                                 <div class="form-group">
+                                                    <label>Test Number</label>
+                                                    <input class="form-control" placeholder="<?php echo $Test_Number ?>" name="Test_Number" required disabled>
+                                                </div>
+                                                <div class="form-group">
                                                     <label>Donation Number</label>
-                                                    <input class="form-control" placeholder="<?php echo $Donation_Number ?>" name="Donation_Number" required disabled>
+                                                    <input class="form-control" name="Donation_Number" placeholder="<?php echo $Donation_Number ?>" required disabled>
                                                 </div>
                                                 <div class="form-group">
-                                                    <label>Donation Code</label>
-                                                    <input class="form-control" name="Donor_Number" placeholder="<?php echo $Donor_Number ?>" required disabled>
+                                                    <label>Test Date</label>
+                                                    <input class="form-control" placeholder="<?php echo $Test_Date ?>" name="Test_Date" required disabled>
                                                 </div>
                                                 <div class="form-group">
-                                                    <label>National Number</label>
-                                                    <input class="form-control" placeholder="<?php echo $national ?>" name="national" required disabled>
+                                                    <label>Test HBsAg</label>
+                                                    <input class="form-control" placeholder="<?php echo $Test_HBsAg ?>" name="Test_HBsAg" required disabled>
                                                 </div>
                                                 <div class="form-group">
-                                                    <label>Donation Date</label>
-                                                    <input class="form-control" placeholder="<?php echo $Donation_Date ?>" name="Donation_Date" required disabled>
+                                                    <label>Test HCV Ab & IgG</label>
+                                                    <input class="form-control" placeholder="<?php echo $Test_HCV_Ab_IgG ?>" name="Test_HCV_Ab_IgG" required disabled>
                                                 </div>
                                                 <div class="form-group">
-                                                    <label>Blood Group</label>
-                                                    <input class="form-control" placeholder="<?php echo $Blood_Group ?>" name="Blood_Group" required disabled>
+                                                    <label>Test HIV 1/2 Ag & Ab</label>
+                                                    <input class="form-control" placeholder="<?php echo $Test_HIV_1_2_Ag_Ab ?>" name="Test_HIV_1_2_Ag_Ab" required disabled>
                                                 </div>
                                                 <div class="form-group">
-                                                    <label>Amount Blood</label>
-                                                    <input class="form-control" placeholder="<?php echo $Amount_Blood ?>" name="Amount_Blood" required disabled>
+                                                    <label>Test Syphilis Ab</label>
+                                                    <input class="form-control" placeholder="<?php echo $Test_Syphilis_Ab ?>" name="Test_Syphilis_Ab" required disabled>
                                                 </div>
                                                 <div class="form-group">
-                                                    <label>Picking Type</label>
-                                                    <input class="form-control" placeholder="<?php echo $Picking_Type ?>" name="Picking_Type" required disabled>
+                                                    <label>Stereotyping Capital C</label>
+                                                    <input class="form-control" placeholder="<?php echo $Stereotyping_Capital_C ?>" name="Stereotyping_Capital_C" required disabled>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>Stereotyping Capital E</label>
+                                                    <input class="form-control" placeholder="<?php echo $Stereotyping_Capital_E ?>" name="Stereotyping_Capital_E" required disabled>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>Stereotyping Small c</label>
+                                                    <input class="form-control" placeholder="<?php echo $Stereotyping_Small_c ?>" name="Stereotyping_Small_c" required disabled>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>Test Syphilis Ab</label>
+                                                    <input class="form-control" placeholder="<?php echo $Stereotyping_Small_e ?>" name="Stereotyping_Small_e" required disabled>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>Stereotyping Capital K</label>
+                                                    <input class="form-control" placeholder="<?php echo $Stereotyping_Capital_K ?>" name="Stereotyping_Capital_K" required disabled>
                                                 </div>
                                                 
                                                 
                                               
     
-                                                <button type="submit" class="btn btn-success" class="btn btn-success" style="border-radius:0%; margin-left:75%"> <a href="uploadPrint.php?Donation_Number=<?php echo $row['Donation_Number'] ?>" style="color:white;">Print QR Code</a></button>
+                                                <button type="submit" class="btn btn-success" class="btn btn-success" style="border-radius:0%; margin-left:75%"> <a href="uploadPrint.php?Test_Number=<?php echo $row['Test_Number'] ?>" style="color:white;">Print QR Code</a></button>
                                                 <!-- <button type="submit" class="btn btn-success" class="btn btn-success" style="border-radius:0%; margin-left:75%" ;>Print QR Code</button> -->
                                             </form>
 

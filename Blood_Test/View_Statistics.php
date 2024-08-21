@@ -8,21 +8,36 @@ if (!isset($_SESSION['user_id'])) {
 
 
 include "dbconnect.php";
-$query         = mysqli_query($conn, "SELECT * FROM blood ");
+$query         = mysqli_query($conn, "SELECT * FROM Blood_Test ");
 $num_row     = mysqli_num_rows($query);
 
 $d = date('Y-m-d');
-$query1         = mysqli_query($conn, "SELECT * FROM blood WHERE Donation_Date = '$d'");
+$query1         = mysqli_query($conn, "SELECT * FROM Blood_Test WHERE Test_Date = '$d' ");
 $num_row1     = mysqli_num_rows($query1);
 
-$query2         = mysqli_query($conn, "SELECT * FROM blood WHERE Donation_Date = '$d1' and Picking_Type = 'Patient' ");
+$query2         = mysqli_query($conn, "SELECT * FROM Blood_Test WHERE Test_Date = '$d' and (Stereotyping_Capital_C = 'C+' or Stereotyping_Capital_C = 'C-' or Stereotyping_Capital_E = 'E+' or Stereotyping_Capital_E = 'E-' or Stereotyping_Small_c = 'c+'  or Stereotyping_Small_c = 'c-' or Stereotyping_Small_e = 'e+' or Stereotyping_Small_e = 'e-' or Stereotyping_Capital_K = 'K+' or Stereotyping_Capital_K = 'K-' ) ");
 $num_row2     = mysqli_num_rows($query2);
 
-$query3         = mysqli_query($conn, "SELECT * FROM blood WHERE Donation_Date = '$d1' and Picking_Type = 'Quadrant' ");
+$query3         = mysqli_query($conn, "SELECT * FROM Blood_Test WHERE Test_Date = '$d' and ( Test_HBsAg = 'positive' or Test_HIV_1_2_Ag_Ab = 'positive' or Test_HCV_Ab_IgG = 'positive' or Test_Syphilis_Ab = 'positive' ) ");
 $num_row3     = mysqli_num_rows($query3);
 
-$query4         = mysqli_query($conn, "SELECT * FROM blood WHERE Donation_Date = '$d1' and Picking_Type = 'Single' ");
+$query4         = mysqli_query($conn, "SELECT * FROM Blood_Test WHERE Test_Date = '$d' and  Test_HBsAg = 'positive'  ");
 $num_row4     = mysqli_num_rows($query4);
+
+$query5         = mysqli_query($conn, "SELECT * FROM Blood_Test WHERE Test_Date = '$d' and  Test_HIV_1_2_Ag_Ab = 'positive' ");
+$num_row5     = mysqli_num_rows($query5);
+
+$query6         = mysqli_query($conn, "SELECT * FROM Blood_Test WHERE Test_Date = '$d' and  Test_HCV_Ab_IgG = 'positive' ");
+$num_row6     = mysqli_num_rows($query6);
+
+$query7         = mysqli_query($conn, "SELECT * FROM Blood_Test WHERE Test_Date = '$d' and  Test_HCV_Ab_IgG = 'positive' ");
+$num_row7     = mysqli_num_rows($query7);
+
+// $query3         = mysqli_query($conn, "SELECT * FROM blood WHERE Donation_Date = '$d' and Picking_Type = 'Quadrant' ");
+// $num_row3     = mysqli_num_rows($query3);
+
+// $query4         = mysqli_query($conn, "SELECT * FROM blood WHERE Donation_Date = '$d' and Picking_Type = 'Single' ");
+// $num_row4     = mysqli_num_rows($query4);
 
 
 
@@ -98,10 +113,10 @@ $num_row4     = mysqli_num_rows($query4);
             type: 'doughnut',
             data: {
                 datasets: [{
-                    data: [<?php echo $num_row ; ?>, <?php echo $num_row1  ; ?>, <?php echo $num_row2 ; ?>],
-                    backgroundColor: ['rgba(255, 99, 132, 0.5)', 'rgba(54, 162, 235, 0.5)', 'rgba(255, 206, 86, 0.5)'],
+                    data: [<?php echo $num_row ; ?>, <?php echo $num_row1  ; ?>, <?php echo $num_row2 ; ?>, <?php echo $num_row3 ; ?>],
+                    backgroundColor: ['rgba(255, 99, 132, 0.5)', 'rgba(54, 162, 235, 0.5)', 'rgba(255, 206, 86, 0.5)', 'rgba(2.55, 26, 8.6, 0235)'],
                 }],
-                labels: ['Group Total', 'Group Today', 'Group Patient']
+                labels: ['Tests Total', 'Tests Today', 'Tests Classification', 'Tests Positive']
             },
             options: {
                 title: {
@@ -120,10 +135,10 @@ $num_row4     = mysqli_num_rows($query4);
             type: 'doughnut',
             data: {
                 datasets: [{
-                    data: [<?php echo $num_row2 ; ?>, <?php echo $num_row3  ; ?>, <?php echo $num_row4 ; ?>],
-                    backgroundColor: ['rgba(205, 9.9, 1.32, 105)', 'rgba(54, 16.2, 235, 0.5)', 'rgba(2.55, 206, 86, 0.5)'],
+                    data: [<?php echo $num_row4 ; ?>, <?php echo $num_row5  ; ?>, <?php echo $num_row6; ?>, <?php echo $num_row7 ; ?>],
+                    backgroundColor: ['rgba(205, 9.9, 1.32, 105)', 'rgba(54, 16.2, 235, 0.5)', 'rgba(2.55, 206, 86, 0.5)', 'rgba(255, 206, 86, 0.5)'],
                 }],
-                labels: ['Group Patient', 'Group Quad', 'Group Single']
+                labels: ['Test_HBsAg', 'Test_HIV_1_2_Ag_Ab', 'Test_HCV_Ab_IgG', 'Test_HCV_Ab_IgG']
             },
             options: {
                 title: {
@@ -135,168 +150,6 @@ $num_row4     = mysqli_num_rows($query4);
     </script></div>
 
 
-                <!-- <form id="dataForm" style="width:200px; height:200px;">
-        <label for="value1">القيمة 1:</label>
-        <input type="number" id="value1" required ><br>
-
-        <label for="value2">القيمة 2:</label>
-        <input type="number" id="value2" required ><br>
-
-        <label for="value3">القيمة 3:</label>
-        <input type="number" id="value3" required ><br>
-
-        <button type="submit">عرض المخطط</button>
-    </form>
-    <canvas id="myChart" width="100%" height="100px"></canvas>
-    
-    <script>
-        document.getElementById('dataForm').addEventListener('submit', function(event) {
-            event.preventDefault();
-
-            const value1 = parseFloat(document.getElementById('value1').value);
-            const value2 = parseFloat(document.getElementById('value2').value);
-            const value3 = parseFloat(document.getElementById('value3').value);
-
-            const ctx = document.getElementById('myChart').getContext('2d');
-            const myChart = new Chart(ctx, {
-                type: 'doughnut',
-                data: {
-                    labels: ['القيمة 1', 'القيمة 2', 'القيمة 3'],
-                    datasets: [{
-                        label: 'المخطط الدائري',
-                        data: [value1, value2, value3],
-                        backgroundColor: [
-                            'rgba(255, 99, 132, 0.6)',
-                            'rgba(54, 162, 235, 0.6)',
-                            'rgba(255, 206, 86, 0.6)'
-                        ],
-                        borderColor: [
-                            'rgba(255, 99, 132, 1)',
-                            'rgba(54, 162, 235, 1)',
-                            'rgba(255, 206, 86, 1)'
-                        ],
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    plugins: {
-                        legend: {
-                            position: 'top',
-                        },
-                        title: {
-                            display: true,
-                            text: 'مخطط دائري مفرغ'
-                        }
-                    }
-                }
-            });
-        });
-    </script> -->
-
-                <!-- <canvas id="myChart"></canvas>
-                
-<script>
-var ctx = document.getElementById('myChart').getContext('2d');
-var myChart = new Chart(ctx, {
-    type: 'pie',
-    data: {
-        datasets: [{
-            data: [<?php  echo $num_row5 ?>, <?php echo $num_row1 ?>],
-            backgroundColor: [
-                'rgba(220, 20, 60, 0.8)', // لون القطرة
-                'rgba(255, 255, 255, 0.8)', // لون الخلفية
-                'rgba(0, 0, 255, 0.8)' // لون زمرة الدم
-            ],
-        }],
-        labels: ['ID', 'Date of Donation']
-    },
-    options: {
-        legend: {
-            display: false
-        }
-    }
-});
-</script> -->
-                <!-- <div class="col-lg-4 col-md-6">
-                    <div class="text-info">
-                        <div class="panel-heading">
-                            <div class="row">
-                                <div class="col-xs-3">
-                                    <i class="fa fa-flag fa-5x" style='color:darkred'></i>
-                                </div>
-                                <div class="col-xs-9 text-right">
-
-                                    <?php include 'counter/dashboardcampaigncount.php'; ?>
-
-                                    <div>Campaigns Made</div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <a href="userviewcampaigns.php">
-                            <div class="panel-footer">
-                                <span class="pull-left">View Available Campaigns</span>
-                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                                <div class="clearfix"></div>
-                            </div>
-                        </a>
-                    </div>
-                </div> -->
-
-                <!-- <div class="col-lg-4 col-md-6">
-                    <div class="text-info">
-                        <div class="panel-heading">
-                            <div class="row">
-                                <div class="col-xs-3">
-                                    <i class="fa fa-bullhorn fa-5x" style='color:darkred'></i>
-                                </div>
-                                <div class="col-xs-9 text-right">
-                                    <?php include 'counter/dashannouncecount.php'; ?>
-                                    <div class="huge"> </div>
-                                    <div>Announcement</div>
-                                </div>
-                            </div>
-                        </div>
-                        <a href="userviewannouncement.php">
-                            <div class="panel-footer">
-                                <span class="pull-left">View Announcement Details</span>
-                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                                <div class="clearfix"></div>
-                            </div>
-                        </a>
-                    </div>
-                </div> -->
-                <!-- <div class="col-lg-4 col-md-6">
-                    <div class="text-info">
-                        <div class="panel-heading">
-                            <div class="row">
-                                <div class="col-xs-3">
-                                    <i class="icofont-blood-drop icofont-5x" style='color:red'></i>
-                                </div>
-                                <div class="col-xs-9 text-right">
-                                    <div class="huge">Donate</div>
-                                    <div>Blood</div>
-                                </div>
-                            </div>
-                        </div>
-                        <a href="useraddblood.php">
-                            <div class="panel-footer">
-                                <span class="pull-left">Donate Blood Now!</span>
-                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                                <div class="clearfix"></div>
-                            </div>
-                        </a>
-                    </div>
-                </div> -->
-
-            </div>
-            <!-- <div class="container">
-	<div class="row">
-	<div class="alert alert-danger alert-dismissible" role="alert">
-  <button type="button" onclick="this.parentNode.parentNode.removeChild(this.parentNode);" class="close" data-dismiss="alert"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
-  <strong><i class="fa fa-warning"></i> You Are Currently Viewing User's Account</strong> <marquee><p style="font-family: Impact; font-size: 18pt">You Are Currently Viewing User's Account</p></marquee>
-</div> -->
             <div class="row">
 
                 <div class=".col-lg-12">
